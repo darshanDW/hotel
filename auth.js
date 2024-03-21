@@ -11,7 +11,7 @@ passport.use(new localStrategy(async (username, password, done) => {
         if (!user) {
             return done(null, false, { message: 'Incorrect username' });
         }
-        const isPasswordCorrect = user.password === password;
+        const isPasswordCorrect = await user.comparePassword(password);
         if (isPasswordCorrect) {
             return done(null, user);
         } else {
@@ -21,4 +21,7 @@ passport.use(new localStrategy(async (username, password, done) => {
         return done(err);
     }
 }));
+
+//comment added
+const x = 9;
 module.exports = passport;
