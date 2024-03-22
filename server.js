@@ -29,8 +29,8 @@ app.use(passport.initialize());
 const lam = passport.authenticate('local', { session: false });
 
 // Mounting routes
-app.use('/Person', lam, personroutes);
-app.use('/Menu', lam, menuroutes);
+app.use('/Person', personroutes);
+app.use('/Menu', menuroutes);
 
 
 // Route for authentication with proper error handling

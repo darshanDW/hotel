@@ -1,24 +1,21 @@
 const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
-const Person = require('./model/person');
+const LocalStrategy = require('passport-local').Strategy;
+const Person = require('./model/person'); // Adjust the path as needed
 // Passport local strategy for authentication with validation
-passport.use(new localStrategy(async (username, password, done) => {
-    if (!username || !password) {
-        return done(null, false, { message: 'Missing username or password' });
-    }
+passport.use(new LocalStrategy(async (username, password, done) => {
     try {
-        const user = await Person.findOne({ username: username });
-        if (!user) {
-            return done(null, false, { message: 'Incorrect username' });
-        }
-        const isPasswordCorrect = await user.comparePassword(password);
-        if (isPasswordCorrect) {
+        // console.log('Received credentials:', username, password);
+        const user = await Person.findOne({ username });
+        if (!user)
+            return done(null, false, { message: 'Incorrect username.' });
+
+        const isPasswordMatch = await user.comparePassword(password);
+        if (isPasswordMatch)
             return done(null, user);
-        } else {
-            return done(null, false, { message: 'Incorrect password' });
-        }
-    } catch (err) {
-        return done(err);
+        else
+            return done(null, false, { message: 'Incorrect password.' })
+    } catch (error) {
+        return done(error);
     }
 }));
 
