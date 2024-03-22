@@ -21,11 +21,7 @@ router.get('/', async (req, res) => {
     try {
 
         const dat = await menu.find();
-        if (!dat) {
-            return res.status(404).json(
-                { error: 'persosn not found' }
-            );
-        }
+
         console.log('data fetch');
         res.status(200).json(dat);
 
